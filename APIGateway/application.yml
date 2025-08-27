@@ -1,0 +1,24 @@
+server:
+  port: 7070
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  cloud:
+    gateway:
+      routes:
+        - id: library-service
+          uri: lb://LIBRARYSERVICE
+          predicates:
+            - Path=/library/**
+        - id: student-service
+          uri: lb://STUDENTSERVICE
+          predicates:
+            - Path=/student/**
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
